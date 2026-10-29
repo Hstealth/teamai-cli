@@ -350,7 +350,7 @@ describe('import --dir', () => {
     }
 
     expect(process.exitCode).toBe(1);
-    expect(lines.join('\n')).toContain('Run `teamai codebase --deep-enrich --project my project` to retry.');
+    expect(lines.join('\n')).toContain("Run `teamai codebase --deep-enrich --project 'my project'` to retry.");
   });
 
   it('--incremental keeps the published evidence and pushes nothing when the source is unchanged', async () => {
