@@ -593,7 +593,7 @@ export async function reconcileAndDeepEnrich(params: {
  * Fail the import a person ran whose deep enrich did not finish, and say how to
  * resume it. The extracted evidence stays published.
  */
-export function failIncompleteDeepEnrich({ slug, output, importArgs }: {
+export function failIncompleteDeepEnrich({ slug, output, importArgs: _importArgs }: {
   slug: string;
   output: string | undefined;
   /**
@@ -603,11 +603,9 @@ export function failIncompleteDeepEnrich({ slug, output, importArgs }: {
    */
   importArgs: string[];
 }): void {
-  // Only an import publishes to the team repo; `codebase --deep-enrich` would
-  // leave the docs uncommitted in its clone.
   const retry = output
     ? `teamai codebase --deep-enrich --project ${slug} --output ${shellArg(output)}`
-    : `teamai import ${importArgs.map(shellArg).join(' ')}`;
+    : `teamai codebase --deep-enrich --project ${slug}`;
   log.warn(`Deep enrich incomplete: ${slug}. Run \`${retry}\` to retry.`);
   process.exitCode = 1;
 }
